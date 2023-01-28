@@ -14,7 +14,7 @@ jobs:
           go install honnef.co/go/tools/cmd/staticcheck@latest
           pip install pylint --user
           sudo apt-get install shellcheck fdupes rmlint
-          snap install fclones
+          sudo snap install fclones
       - name: get deps
         run: |
           go mod tidy
