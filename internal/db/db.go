@@ -9,11 +9,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"samedup/internal/checksummer"
-	"samedup/internal/logger"
-	"samedup/internal/multmap"
-	"samedup/internal/node"
 	"time"
+
+	"github.com/deadc0de6/samedup/internal/checksummer"
+	"github.com/deadc0de6/samedup/internal/logger"
+	"github.com/deadc0de6/samedup/internal/multmap"
+	"github.com/deadc0de6/samedup/internal/node"
 
 	"github.com/pterm/pterm"
 )

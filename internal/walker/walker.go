@@ -10,8 +10,9 @@ import (
 	"io/fs"
 	"path/filepath"
 	"regexp"
-	"samedup/internal/logger"
-	"samedup/internal/node"
+
+	"github.com/deadc0de6/samedup/internal/logger"
+	"github.com/deadc0de6/samedup/internal/node"
 )
 
 func isMatch(path string, ignores []*regexp.Regexp) bool {

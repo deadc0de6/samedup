@@ -7,8 +7,9 @@ package reporter
 
 import (
 	"fmt"
-	"samedup/internal/db"
 	"strings"
+
+	"github.com/deadc0de6/samedup/internal/db"
 )
 
 var (

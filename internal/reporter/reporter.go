@@ -6,8 +6,9 @@ Copyright (c) 2023, deadc0de6
 package reporter
 
 import (
-	"samedup/internal/db"
 	"strings"
+
+	"github.com/deadc0de6/samedup/internal/db"
 
 	humanize "github.com/dustin/go-humanize"
 )

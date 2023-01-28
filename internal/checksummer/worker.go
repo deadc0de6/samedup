@@ -7,9 +7,10 @@ package checksummer
 
 import (
 	"runtime"
-	"samedup/internal/logger"
-	"samedup/internal/node"
 	"sync"
+
+	"github.com/deadc0de6/samedup/internal/logger"
+	"github.com/deadc0de6/samedup/internal/node"
 )
 
 // Pool worker pool

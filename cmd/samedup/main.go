@@ -7,8 +7,9 @@ package main
 
 import (
 	"os"
-	"samedup/internal/commands"
-	"samedup/internal/logger"
+
+	"github.com/deadc0de6/samedup/internal/commands"
+	"github.com/deadc0de6/samedup/internal/logger"
 )
 
 func main() {
