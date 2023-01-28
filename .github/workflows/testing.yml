@@ -13,6 +13,7 @@ jobs:
           go install golang.org/x/lint/golint@latest
           go install honnef.co/go/tools/cmd/staticcheck@latest
           pip install pylint --user
+          sudo apt-get install shellcheck fdupes rmlint fclones
       - name: get deps
         run: |
           go mod tidy
