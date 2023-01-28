@@ -1,4 +1,4 @@
-module samedup
+module github.com/deadc0de6/samedup
 
 go 1.19
 
