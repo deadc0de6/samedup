@@ -40,11 +40,8 @@ def parse_stairs(file):
     dups = []
     acc = []
     cnt = 0
-    in_cicd = 'GITHUB_WORKFLOW' in os.environ
     for line in file:
         cnt += 1
-        if not in_cicd:
-            sys.stderr.write(f'line {cnt}\r')
         if line == '':
             continue
         if line.startswith('#'):
@@ -74,7 +71,6 @@ def parse_empty_sep(file):
     cnt = 0
     for line in file:
         cnt += 1
-        sys.stderr.write(f'line {cnt}\r')
         line = line.rstrip()
         if line == '':
             # separator
