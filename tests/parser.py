@@ -40,9 +40,11 @@ def parse_stairs(file):
     dups = []
     acc = []
     cnt = 0
+    in_cicd = 'GITHUB_WORKFLOW' in os.environ
     for line in file:
         cnt += 1
-        sys.stderr.write(f'line {cnt}\r')
+        if not in_cicd:
+            sys.stderr.write(f'line {cnt}\r')
         if line == '':
             continue
         if line.startswith('#'):
