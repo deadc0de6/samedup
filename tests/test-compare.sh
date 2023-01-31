@@ -72,7 +72,14 @@ compare()
     #delta --paging=never "${tmp_other_tool}" "${tmp_samedup}"
   else
     # github
+    set +e
     cmp --silent "${tmp_other_tool}" "${tmp_samedup}"
+    ret="$?"
+    set -e
+    if [ "${ret}" != "0" ]; then
+      # only shows diff on failure
+      diff -b -y --suppress-common-lines "${tmp_other_tool}" "${tmp_samedup}"
+    fi
   fi
 
   echo "ok!"
