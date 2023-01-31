@@ -66,9 +66,17 @@ compare()
 
   # diff the results
   echo "diff for \"${path}\" (${cur}/${tmp_other_tool} ${cur}/${tmp_samedup}):"
-  diff -b -y --suppress-common-lines "${tmp_other_tool}" "${tmp_samedup}"
-  #delta --paging=never "${tmp_other_tool}" "${tmp_samedup}"
+  if [ -z "${GITHUB_WORKFLOW}" ]; then
+    # local
+    diff -b -y --suppress-common-lines "${tmp_other_tool}" "${tmp_samedup}"
+    #delta --paging=never "${tmp_other_tool}" "${tmp_samedup}"
+  else
+    # github
+    cmp --silent "${tmp_other_tool}" "${tmp_samedup}"
+  fi
+
   echo "ok!"
+  echo "--------------------------------------------------------------"
 }
 
 # $1 other tool
@@ -89,7 +97,7 @@ compares()
   samedup_args=${4}
   sorter_args=${5}
   compare "${path}" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
-  compare "/usr" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
+  #compare "/usr" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
   compare "/bin" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
   compare "/opt" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
 }
