@@ -30,7 +30,7 @@ Features:
 
 ```bash
 ## You need at least golang 1.19
-$ go install -v github.com/deadc0de6/samedup@latest
+$ go install -v github.com/deadc0de6/samedup/cmd/samedup@latest
 $ samedup
 ```
 
