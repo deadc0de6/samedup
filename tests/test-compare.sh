@@ -104,7 +104,7 @@ compares()
   samedup_args=${4}
   sorter_args=${5}
   compare "${path}" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
-  #compare "/usr" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
+  compare "/usr" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
   compare "/bin" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
   compare "/opt" "${tool} ${other_args}" "${samedup_args}" "${sorter_args}"
 }
