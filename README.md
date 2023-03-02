@@ -29,12 +29,12 @@ Features:
 # Installation
 
 ```bash
-## You need at least golang 1.19
+## You need at least golang 1.20
 $ go install -v github.com/deadc0de6/samedup/cmd/samedup@latest
 $ samedup
 ```
 
-Compilation (go 1.19 and above)
+Compilation (go 1.20 and above)
 ```bash
 $ go mod tidy
 $ make
