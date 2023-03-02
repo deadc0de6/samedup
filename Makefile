@@ -1,7 +1,7 @@
 GOBIN=$(shell pwd)/bin
 BIN=$(GOBIN)/samedup
 CGO=0
-VERSION="0.1"
+VERSION="0.2"
 GOOS=$(shell go env GOOS)
 GOARCH=$(shell go env GOARCH)
 GITCOMMIT=$(shell git rev-parse --short HEAD)
