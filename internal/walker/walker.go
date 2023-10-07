@@ -10,6 +10,7 @@ import (
 	"io/fs"
 	"path/filepath"
 	"regexp"
+	"strings"
 
 	"github.com/deadc0de6/samedup/internal/logger"
 	"github.com/deadc0de6/samedup/internal/node"
@@ -25,9 +26,19 @@ func isMatch(path string, ignores []*regexp.Regexp) bool {
 	return false
 }
 
+func isAnyHidden(path string) bool {
+	fields := filepath.SplitList(path)
+	for _, entry := range fields {
+		if strings.HasPrefix(entry, ".") {
+			return true
+		}
+	}
+	return false
+}
+
 // Walk walks the filesystem and pushes found files to the channel
 // it returns the logfile, total number of found files, nb skipped, nb error
-func Walk(rootPath string, newFileChan chan (*node.Node), filters []*regexp.Regexp, ignores []*regexp.Regexp, ignoreZero bool, flogger *logger.FileLogger) (string, int64, int64, int64, error) {
+func Walk(rootPath string, newFileChan chan (*node.Node), filters []*regexp.Regexp, ignores []*regexp.Regexp, ignoreZero bool, ignoreHidden bool, flogger *logger.FileLogger) (string, int64, int64, int64, error) {
 	var cntPushed int64
 	var cntSkipped int64
 	var cntErr int64
@@ -45,6 +56,15 @@ func Walk(rootPath string, newFileChan chan (*node.Node), filters []*regexp.Rege
 			cntErr++
 			return nil
 		}
+
+		if ignoreHidden {
+			rel, _ := filepath.Rel(rootPath, path)
+			if isAnyHidden(rel) {
+				cntSkipped++
+				return nil
+			}
+		}
+
 		baseName := filepath.Base(path)
 		if isMatch(baseName, ignores) {
 			flogger.Warnf("skip ignored: %s", path)

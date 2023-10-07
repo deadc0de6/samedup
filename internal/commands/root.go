@@ -34,19 +34,20 @@ var (
 		Short:   "samedup - duplicate finder",
 		Long:    `Duplicate file finder`,
 		Version: version,
-		Args:    cobra.MinimumNArgs(1),
-		PreRun:  preRunDebug,
-		RunE:    samedup,
+		//Args:    cobra.MinimumNArgs(1),
+		PreRun: preRunDebug,
+		RunE:   samedup,
 	}
 
-	rootOptDebugMode   bool
-	rootOptIgnoreEmpty = true
-	rootOptIgnore      []string
-	rootOptOutFormat   string
-	rootOptQuiet       bool
-	rootOptHashMethod  int
-	rootOptFilter      []string
-	rootOptSortMode    string
+	rootOptDebugMode    bool
+	rootOptIgnoreEmpty  = true
+	rootOptIgnoreHidden = false
+	rootOptIgnore       []string
+	rootOptOutFormat    string
+	rootOptQuiet        bool
+	rootOptHashMethod   int
+	rootOptFilter       []string
+	rootOptSortMode     string
 )
 
 func init() {
@@ -57,6 +58,7 @@ func init() {
 
 	rootCmd.PersistentFlags().BoolVarP(&rootOptDebugMode, "debug", "d", viper.GetBool("DEBUG"), "enable debug mode")
 	rootCmd.PersistentFlags().BoolVarP(&rootOptIgnoreEmpty, "noempty", "z", false, "ignore empty files")
+	rootCmd.PersistentFlags().BoolVarP(&rootOptIgnoreHidden, "ignorehidden", "t", false, "ignore hidden files")
 	rootCmd.PersistentFlags().StringSliceVarP(&rootOptIgnore, "ignore", "i", []string{}, "patterns to ignore")
 	hlp := fmt.Sprintf("output format (%s)", strings.Join(reporter.GetFormats(), ","))
 	rootCmd.PersistentFlags().StringVarP(&rootOptOutFormat, "output", "o", "tree", hlp)
@@ -137,7 +139,11 @@ func samedup(ccmd *cobra.Command, args []string) error {
 	// process each argument
 	var cnt int64
 	var stats []string
+	if args == nil || len(args) < 1 {
+		args = []string{"."}
+	}
 	for _, arg := range args {
+		logger.Debugf("processing %s", arg)
 		path, err := filepath.Abs(arg)
 		if err != nil {
 			logger.Error(err)
@@ -166,7 +172,8 @@ func samedup(ccmd *cobra.Command, args []string) error {
 		if spinner != nil {
 			spinner.UpdateText(fmt.Sprintf("indexing \"%s\"", path))
 		}
-		logPath, subcnt, skipcnt, errcnt, err := walker.Walk(path, newFileChan, filterPatterns, ignPatterns, rootOptIgnoreEmpty, flogger)
+
+		logPath, subcnt, skipcnt, errcnt, err := walker.Walk(path, newFileChan, filterPatterns, ignPatterns, rootOptIgnoreEmpty, rootOptIgnoreHidden, flogger)
 		if err != nil {
 			logger.Errorf("walking %s: %v", path, err)
 		}
