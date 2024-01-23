@@ -75,11 +75,6 @@ func (d *Database) addBySize(n *node.Node) {
 }
 
 func (d *Database) findDuplicates() multmap.MultMap[string] {
-	if len(d.bySize) < 2 {
-		// no(t enough) files
-		return nil
-	}
-
 	// aggregate all with the same fast checksum
 	if d.spinner != nil {
 		d.spinner.UpdateText(fmt.Sprintf("aggregate by size (%d)...", len(d.bySize)))
@@ -128,6 +123,7 @@ func (d *Database) index() {
 
 	// we get here once the chan is closed
 	// that is when all files have been indexed
+	logger.Debug("finding duplicates...")
 	d.resultChan <- d.getDuplicatesByContent()
 	close(d.resultChan)
 }
@@ -144,6 +140,7 @@ func (d *Database) sort(lst []*node.Node) []*node.Node {
 }
 
 func (d *Database) getDuplicatesByContent() *Duplicates {
+	logger.Debugf("finding duplicates by content...")
 	potentials := d.findDuplicates()
 
 	// construct the duplicates list
