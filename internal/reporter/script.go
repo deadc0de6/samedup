@@ -17,20 +17,16 @@ var (
 	header                 = "#!/usr/bin/env bash\n#\n"
 	statsHeader            = "# total %d duplicates, total wasted: %s\n#\n"
 	dupHeader              = "# %d duplicates for \"%s\" - would free %s\n"
-	dupFirst               = "#rm -fv '%s'\n"
-	dupDup                 = "rm -fv '%s'\n"
+	dupFirst               = "#rm -fv '%s'\n" // do not change to double quotes for path
+	dupDup                 = "rm -fv '%s'\n"  // do not change to double quotes for path
 	crlf                   = "\n"
-	specials               = []string{"$", "`", "\\", "!"}
+	singleQuote            = `'`
 	singleQuoteReplacement = `'\''`
 )
 
 func escaper(path string) string {
 	newpath := path
-	for _, special := range specials {
-		replacement := fmt.Sprintf("\\%s", special)
-		newpath = strings.Replace(newpath, special, replacement, -1)
-	}
-	newpath = strings.Replace(newpath, "'", singleQuoteReplacement, -1)
+	newpath = strings.Replace(newpath, singleQuote, singleQuoteReplacement, -1)
 	logger.Debugf("sanitize \"%s\" to \"%s\"", path, newpath)
 	return newpath
 }
